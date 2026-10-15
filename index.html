@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0A1A2C">
+  <title>YXY · Yields Xanadu Yore — 雪落昔时，梦归原乡</title>
+  <meta name="description" content="YXY 的个人站点。雪落昔时，梦归原乡。一个被好奇心驱动的探索者，亲近自然与生灵，慢慢走，别停下。">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9D%84%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Noto+Sans+SC:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 全局落雪画布（装饰层，位于内容之下、背景之上） -->
+  <canvas id="snow" aria-hidden="true"></canvas>
+  <a class="skip-link" href="#about">跳到主要内容</a>
+
+  <!-- 顶部导航 -->
+  <header class="nav" id="nav">
+    <a class="brand" href="#hero" aria-label="返回顶部">
+      <svg class="brand-flake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+        <path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1"/>
+        <path d="M12 6l-1.8 1.8M12 6l1.8 1.8M12 18l-1.8-1.8M12 18l1.8-1.8M6 12l1.8-1.8M6 12l1.8 1.8M18 12l-1.8-1.8M18 12l-1.8 1.8"/>
+      </svg>
+      <span>YXY</span>
+    </a>
+    <nav class="nav-links" id="navLinks" aria-label="主导航">
+      <a href="#about">关于</a>
+      <a href="#journey">足迹</a>
+      <a href="#kindred">生灵</a>
+      <a href="#words">文字</a>
+      <a href="#contact">联系</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="打开菜单" aria-expanded="false" aria-controls="navLinks">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+    <!-- ===== 首屏：雪 · 云 · 星野 · 远山 ===== -->
+    <section class="hero" id="hero">
+      <div class="stars" id="stars" aria-hidden="true"></div>
+      <div class="moon" aria-hidden="true"></div>
+      <div class="clouds" aria-hidden="true">
+        <div class="cloud c1"></div>
+        <div class="cloud c2"></div>
+        <div class="cloud c3"></div>
+      </div>
+
+      <div class="hero-inner">
+        <p class="hero-eyebrow"><span class="rule"></span>Personal Site · 个人小站<span class="rule"></span></p>
+        <h1 class="hero-title">Yields Xanadu Yore</h1>
+        <p class="hero-sub">『雪落昔时，梦归原乡。』</p>
+      </div>
+
+      <!-- 三层远山，滚动时做轻微视差 -->
+      <div class="ranges" aria-hidden="true">
+        <svg class="range range-back" viewBox="0 0 1440 400" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gBack" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#2A4E6E"/>
+              <stop offset="1" stop-color="#1B3A57"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#gBack)" opacity="0.5" d="M0,300 L90,205 L170,258 L300,138 L420,228 L540,118 L660,218 L790,148 L920,248 L1050,168 L1180,238 L1300,178 L1440,248 L1440,400 L0,400 Z"/>
+        </svg>
+        <svg class="range range-mid" viewBox="0 0 1440 400" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gMid" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#1E3F5E"/>
+              <stop offset="1" stop-color="#12283F"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#gMid)" d="M0,340 L120,255 L240,300 L380,185 L520,288 L640,205 L780,300 L900,235 L1040,298 L1180,215 L1320,288 L1440,238 L1440,400 L0,400 Z"/>
+          <path fill="#DCEBF5" opacity="0.75" d="M380,185 L358,214 L368,209 L378,218 L392,207 L402,216 Z"/>
+          <path fill="#DCEBF5" opacity="0.6" d="M1180,215 L1162,240 L1170,236 L1178,244 L1190,235 L1198,242 Z"/>
+          <path fill="none" stroke="rgba(169,214,234,0.22)" stroke-width="1.5" d="M0,340 L120,255 L240,300 L380,185 L520,288 L640,205 L780,300 L900,235 L1040,298 L1180,215 L1320,288 L1440,238"/>
+        </svg>
+        <svg class="range range-front" viewBox="0 0 1440 400" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gFront" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#0E2236"/>
+              <stop offset="1" stop-color="#081524"/>
+            </linearGradient>
+          </defs>
+          <path fill="url(#gFront)" d="M0,382 L160,318 L320,358 L480,300 L640,352 L820,308 L1000,358 L1180,312 L1440,362 L1440,400 L0,400 Z"/>
+          <path fill="none" stroke="rgba(169,214,234,0.16)" stroke-width="1.5" d="M0,382 L160,318 L320,358 L480,300 L640,352 L820,308 L1000,358 L1180,312 L1440,362"/>
+        </svg>
+      </div>
+
+      <a class="scroll-hint" href="#about" aria-label="向下滚动到关于">
+        <span class="scroll-text">慢慢下滑</span>
+        <span class="scroll-line" aria-hidden="true"></span>
+      </a>
+    </section>
+
+    <!-- ===== 01 关于 ===== -->
+    <section class="section" id="about">
+      <div class="wrap">
+        <header class="sec-head reveal">
+          <span class="sec-no">01</span>
+          <div class="sec-titles">
+            <p class="sec-en">About</p>
+            <h2 class="sec-cn">关于我</h2>
+          </div>
+        </header>
+
+        <div class="about-grid">
+          <p class="about-lead reveal">我是 YXY。好奇心是我的指南针，山河湖海是备忘录。相信慢一点也能走到远处，相信温柔与好奇，足以应付大部分难题。</p>
+          <p class="about-note reveal">性格随和，路走到哪算哪；但眼里的风景，从来不肯将就。<br>此刻——在等今冬的第一场雪。</p>
+        </div>
+
+        <ul class="manifesto stagger">
+          <li class="reveal">
+            <span class="mf-no">I.</span>
+            <div>
+              <h3>探索</h3>
+              <p>世界是一张没画完的地图，每一条没走过的路，都值得亲自踩一遍。</p>
+            </div>
+          </li>
+          <li class="reveal">
+            <span class="mf-no">II.</span>
+            <div>
+              <h3>好奇</h3>
+              <p>对万事万物保持提问的姿势，答案慢一点没关系。</p>
+            </div>
+          </li>
+          <li class="reveal">
+            <span class="mf-no">III.</span>
+            <div>
+              <h3>亲自然</h3>
+              <p>山脊线的弧度、云层的厚度、雪落下的声音，都是熟悉的语言。</p>
+            </div>
+          </li>
+          <li class="reveal">
+            <span class="mf-no">IV.</span>
+            <div>
+              <h3>爱生灵</h3>
+              <p>相信每一个不会说话的生灵，都藏着一种更古老的智慧。</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== 02 足迹 ===== -->
+    <section class="section section-alt" id="journey">
+      <div class="wrap">
+        <header class="sec-head reveal">
+          <span class="sec-no">02</span>
+          <div class="sec-titles">
+            <p class="sec-en">Journey</p>
+            <h2 class="sec-cn">足迹</h2>
+          </div>
+        </header>
+
+        <p class="sec-intro reveal">路都是慢慢走出来的。以下是被风雪与云层盖章的几页。</p>
+
+        <div class="timeline">
+          <div class="tl-item reveal">
+            <span class="tl-season">春 · 云海之上</span>
+            <h3>等一场云开</h3>
+            <p>在海拔之上等一场云开，山谷把白色铺到天边。风很大，话都说得很短。</p>
+          </div>
+          <div class="tl-item reveal">
+            <span class="tl-season">夏 · 林间深处</span>
+            <h3>树冠筛下的光</h3>
+            <p>苔藓柔软，溪水很凉，树冠把阳光筛成碎片，落在青蛙跳过的地方。</p>
+          </div>
+          <div class="tl-item reveal">
+            <span class="tl-season">秋 · 湖畔黄昏</span>
+            <h3>风里的皱纹</h3>
+            <p>芦苇低着头，风把水面吹出细密的皱纹。归鸟比昨天少了一些。</p>
+          </div>
+          <div class="tl-item reveal">
+            <span class="tl-season">冬 · 雪原深夜</span>
+            <h3>脚印会说话</h3>
+            <p>万籁俱寂，只有脚印在替我说：来过。抬头，星野低得几乎压到眉梢。</p>
+          </div>
+        </div>
+
+        <p class="tl-foot reveal">更多目的地，正在路上。</p>
+      </div>
+    </section>
+
+    <!-- ===== 03 生灵 ===== -->
+    <section class="section" id="kindred">
+      <div class="wrap">
+        <header class="sec-head reveal">
+          <span class="sec-no">03</span>
+          <div class="sec-titles">
+            <p class="sec-en">Kindred</p>
+            <h2 class="sec-cn">生灵</h2>
+          </div>
+        </header>
+
+        <p class="sec-intro reveal">一些不会说话的朋友，和它们教我的事。</p>
+
+        <div class="kindred-grid stagger">
+          <article class="creature reveal">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 26C16 20 15 14 17 11c4 2 8 7 9 11"/>
+              <path d="M44 26c4-6 5-12 3-15-4 2-8 7-9 11"/>
+              <ellipse cx="32" cy="36" rx="15" ry="14"/>
+              <path d="M23.5 33.5Q26 31 28.5 33.5M35.5 33.5Q38 31 40.5 33.5"/>
+              <path d="M32 38.5l-2.5 2.5h5Z" fill="currentColor" stroke="none"/>
+              <path d="M32 41.5v2M32 43.5c-2 0-3.5-1.2-4.5-2.6M32 43.5c2 0 3.5-1.2 4.5-2.6"/>
+              <path d="M18 37l-8-2M18 40l-8 1M46 37l8-2M46 40l8 1"/>
+              <circle cx="26" cy="27" r="1.1" fill="currentColor" stroke="none"/>
+              <circle cx="38" cy="27" r="1.1" fill="currentColor" stroke="none"/>
+              <circle cx="32" cy="24.5" r="1.1" fill="currentColor" stroke="none"/>
+              <circle cx="21" cy="31" r="1" fill="currentColor" stroke="none"/>
+              <circle cx="43" cy="31" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+            <h3>雪豹</h3>
+            <p>雪山之王，走路从不发出声音。</p>
+          </article>
+
+          <article class="creature reveal">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M26 30C22 24 20 18 21 12c-2-2-5-2-6 0M26 30c-2-4-4-6-7-7M20 17c-2-2-5-2-6-1"/>
+              <path d="M38 30c4-6 6-12 5-18 2-2 5-2 6 0M38 30c2-4 4-6 7-7M44 17c2-2 5-2 6-1"/>
+              <ellipse cx="32" cy="38" rx="8" ry="11"/>
+              <path d="M24 32c-4-2-6-5-6-8 3 1 6 4 7 7"/>
+              <path d="M40 32c4-2 6-5 6-8-3 1-6 4-7 7"/>
+              <circle cx="29" cy="36" r="1.2" fill="currentColor" stroke="none"/>
+              <circle cx="35" cy="36" r="1.2" fill="currentColor" stroke="none"/>
+              <path d="M32 40v2.5M32 42.5c-1.8 0-3.2-1.1-4-2.4M32 42.5c1.8 0 3.2-1.1 4-2.4"/>
+            </svg>
+            <h3>鹿</h3>
+            <p>林间清晨，它抬头的那一秒钟。</p>
+          </article>
+
+          <article class="creature reveal">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20 30L16 14l14 10"/>
+              <path d="M44 30l4-16-14 10"/>
+              <path d="M32 24c8 0 13 6 13 14 0 9-6 16-13 16s-13-7-13-16c0-8 5-14 13-14Z"/>
+              <path d="M25.5 36.5l4 1.5M38.5 36.5l-4 1.5"/>
+              <ellipse cx="32" cy="45" rx="2.2" ry="1.6" fill="currentColor" stroke="none"/>
+              <path d="M19 42l-4 2 4 1M45 42l4 2-4 1"/>
+            </svg>
+            <h3>狐</h3>
+            <p>机灵的小邻居，尾巴里藏着一小把火。</p>
+          </article>
+
+          <article class="creature reveal">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M6 40Q18 22 32 34Q46 22 58 40"/>
+              <path d="M16 20Q21 15 26 19.5Q31 15 36 20" opacity="0.55"/>
+            </svg>
+            <h3>飞鸟</h3>
+            <p>翅膀是天空写下的标点。</p>
+          </article>
+
+          <article class="creature reveal">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="25" cy="17" r="4"/>
+              <circle cx="39" cy="17" r="4"/>
+              <circle cx="32" cy="38" r="16"/>
+              <circle cx="27" cy="35" r="1.3" fill="currentColor" stroke="none"/>
+              <circle cx="37" cy="35" r="1.3" fill="currentColor" stroke="none"/>
+              <path d="M32 40v2M32 42c-1.5 0-2.6-1-3.2-2M32 42c1.5 0 2.6-1 3.2-2"/>
+              <path d="M24 51q-2 2 0 3M40 51q2 2 0 3"/>
+            </svg>
+            <h3>鼠兔</h3>
+            <p>高原上的小毛球，叫声明亮又短促。</p>
+          </article>
+
+          <article class="creature reveal">
+            <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M19 28L16 12l15 9"/>
+              <path d="M45 28l3-16-15 9"/>
+              <circle cx="32" cy="36" r="15"/>
+              <path d="M25 34q2.5-2.5 5 0M34 34q2.5-2.5 5 0"/>
+              <path d="M32 39.5l-1.8 1.8h3.6Z" fill="currentColor" stroke="none"/>
+              <path d="M32 41.8v1.4M32 43.2c-1.6 0-2.8-1-3.6-2M32 43.2c1.6 0 2.8-1 3.6-2"/>
+              <path d="M18 39l-8-2M18 42l-8 2M46 39l8-2M46 42l8 2"/>
+            </svg>
+            <h3>猫</h3>
+            <p>想成为一只晒着太阳打呼噜的猫。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 04 文字 ===== -->
+    <section class="section section-alt" id="words">
+      <div class="wrap">
+        <header class="sec-head reveal">
+          <span class="sec-no">04</span>
+          <div class="sec-titles">
+            <p class="sec-en">Words</p>
+            <h2 class="sec-cn">诗与文字</h2>
+          </div>
+        </header>
+
+        <p class="sec-intro reveal">写得不勤，但每一句都算数。</p>
+
+        <div class="poem-grid stagger">
+          <blockquote class="poem reveal">
+            <p>云是天空写给大地的信，<br>每一封都很长，很长。</p>
+          </blockquote>
+          <blockquote class="poem reveal">
+            <p>雪落下来的时候，<br>世界安静得刚好够装下一个梦。</p>
+          </blockquote>
+          <blockquote class="poem reveal">
+            <p>山不说话，<br>但它记得每一个翻过它的人。</p>
+          </blockquote>
+          <blockquote class="poem reveal">
+            <p>所谓故乡，<br>就是梦里反复下雪的那一片屋顶。</p>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- 诗句跑马灯：章节之间的呼吸带 -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <div class="mq-group"><span>雪落昔时 · 梦归原乡 · 山高水长 · 云淡风轻 · 慢慢走 · 别停下 · 来日方长 · 后会有期 ·&nbsp;</span></div>
+        <div class="mq-group"><span>雪落昔时 · 梦归原乡 · 山高水长 · 云淡风轻 · 慢慢走 · 别停下 · 来日方长 · 后会有期 ·&nbsp;</span></div>
+      </div>
+    </div>
+
+    <!-- ===== 05 联系 ===== -->
+    <section class="section contact" id="contact">
+      <div class="wrap">
+        <header class="sec-head reveal">
+          <span class="sec-no">05</span>
+          <div class="sec-titles">
+            <p class="sec-en">Contact</p>
+            <h2 class="sec-cn">联系我</h2>
+          </div>
+        </header>
+
+        <div class="contact-body">
+          <p class="contact-lead reveal">如果这些文字恰好落在你心上，</p>
+          <p class="contact-lead reveal">欢迎写信给我。</p>
+          <div class="reveal">
+            <a class="mail-btn" href="mailto:hello@yxy.example">写封信<span class="btn-arrow" aria-hidden="true">→</span></a>
+          </div>
+          <p class="contact-note reveal">见字如面。回信或许慢，但一定到。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <svg class="footer-flake" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+        <path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1"/>
+        <path d="M12 6l-1.8 1.8M12 6l1.8 1.8M12 18l-1.8-1.8M12 18l1.8-1.8M6 12l1.8-1.8M6 12l1.8 1.8M18 12l-1.8-1.8M18 12l-1.8 1.8"/>
+      </svg>
+      <p class="footer-name">YXY</p>
+      <p class="footer-tag">Yields Xanadu Yore</p>
+      <p class="footer-tag-cn">雪落昔时，梦归原乡。</p>
+      <p class="footer-meta">© <span id="year">2026</span> YXY · Designed with snow, clouds &amp; curiosity</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
