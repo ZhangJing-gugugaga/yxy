@@ -20,7 +20,7 @@
       --color-warm: #f3d29c;
       --color-rule: rgba(210, 234, 252, 0.22);
       --color-scrim: rgba(7, 21, 38, 0.56);
-      --color-drawer-bg: rgba(9, 26, 46, 0.94);
+      --color-drawer-bg: rgba(13, 32, 56, 0.40);
       --font-en-art: 'Cinzel Decorative', 'Cormorant Garamond', Georgia, serif;
       --font-en-serif: 'Cormorant Garamond', Georgia, serif;
       --font-cn-art: 'ZCOOL XiaoWei', 'Noto Serif SC', serif;
@@ -90,6 +90,40 @@
       height: 100vh;
       pointer-events: none;
       z-index: 2;
+    }
+
+    /* Cursor-following soft snow-light — gentle moonlit glow that trails the pointer */
+    .cursor-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 280px;
+      height: 280px;
+      margin: -140px 0 0 -140px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 3;
+      background: radial-gradient(circle,
+        var(--glow-core, rgba(206, 234, 255, 0.32)) 0%,
+        var(--glow-mid, rgba(154, 216, 255, 0.15)) 38%,
+        rgba(154, 216, 255, 0) 70%);
+      mix-blend-mode: screen;
+      opacity: 0;
+      transform: translate3d(-100px, -100px, 0);
+      transition: opacity 0.55s ease, transform 0.14s ease-out, background 0.6s ease;
+      will-change: transform;
+    }
+    .cursor-glow.is-active { opacity: 1; }
+    /* A fainter inner core for a layered, lantern-like feel */
+    .cursor-glow::after {
+      content: "";
+      position: absolute;
+      inset: 38%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.30), rgba(255, 255, 255, 0) 70%);
+    }
+    @media (hover: none), (prefers-reduced-motion: reduce) {
+      .cursor-glow { display: none; }
     }
 
     /* Editorial Container — Zero AI Boxes */
@@ -276,13 +310,13 @@
       border-color: var(--color-warm);
     }
 
-    /* Slide-over Literary Note Drawer */
+    /* Centered Glass Letter Drawer */
     .drawer-backdrop {
       position: fixed;
       inset: 0;
       z-index: 60;
-      background: rgba(4, 14, 26, 0.64);
-      backdrop-filter: blur(8px);
+      background: rgba(4, 14, 26, 0.55);
+      backdrop-filter: blur(10px);
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.35s var(--ease-out);
@@ -293,20 +327,42 @@
     }
     .drawer-panel {
       position: fixed;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: min(560px, 92vw);
+      left: 50%;
+      top: 50%;
+      width: min(600px, 92vw);
+      max-height: 86vh;
       z-index: 70;
       background: var(--color-drawer-bg);
+      backdrop-filter: blur(26px) saturate(150%);
+      -webkit-backdrop-filter: blur(26px) saturate(150%);
       color: var(--color-ink);
-      border-left: 1px solid var(--color-rule);
-      transform: translateX(102%);
-      transition: transform 0.45s var(--ease-out);
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      border-radius: 16px;
+      box-shadow: 0 36px 90px -24px rgba(0, 0, 0, 0.62),
+                  inset 0 1px 0 rgba(255, 255, 255, 0.18);
+      transform: translate(-50%, -50%) scale(0.92);
+      opacity: 0;
+      transition: transform 0.46s var(--ease-out), opacity 0.34s var(--ease-out);
       overflow-y: auto;
+      /* faint letter-paper grain */
+      background-image:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0) 22%),
+        radial-gradient(120% 80% at 50% -10%, rgba(154, 216, 255, 0.10), rgba(154, 216, 255, 0) 60%);
     }
     .drawer-panel.is-open {
-      transform: translateX(0);
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    /* envelope-style top fold crease — like opening a letter */
+    .drawer-panel::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 12%;
+      right: 12%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
     }
 
     /* Flowing Poetic Ribbon */
@@ -394,6 +450,9 @@
   <!-- Full-Screen Dynamic Snow -> Melting Mist -> Spring Petals Canvas -->
   <canvas id="snow-canvas" aria-hidden="true"></canvas>
 
+  <!-- Cursor-following soft snow-light glow (mouse interaction) -->
+  <div id="cursor-glow" class="cursor-glow" aria-hidden="true"></div>
+
   <!-- Right-Side Vertical Seasonal & You-Hour Compass -->
   <nav class="season-rail" aria-label="冬去春来章节导览">
     <button type="button" class="season-node is-active" data-scroll-target="#preface">
@@ -443,9 +502,6 @@
         <a href="#journey" class="text-sky-100/80 hover:text-white transition-colors no-underline whitespace-nowrap">足迹</a>
         <a href="#words" class="text-sky-100/80 hover:text-white transition-colors no-underline whitespace-nowrap">诗笺</a>
         <a href="#contact" class="text-sky-100/80 hover:text-white transition-colors no-underline whitespace-nowrap">尺素</a>
-        <button type="button" id="audio-toggle-btn" class="text-xs text-amber-200/90 border-b border-amber-200/60 pb-0.5 hover:opacity-80 transition-opacity whitespace-nowrap cursor-pointer bg-transparent" aria-pressed="false">
-          听雪 · 静
-        </button>
       </nav>
     </div>
   </header>
@@ -902,7 +958,7 @@
     </footer>
   </main>
 
-  <!-- ==================== SLIDE-OVER LITERARY SHEET DRAWER ==================== -->
+  <!-- ==================== CENTERED GLASS LETTER DRAWER ==================== -->
   <div id="drawer-backdrop" class="drawer-backdrop" aria-hidden="true"></div>
   <aside id="drawer-panel" class="drawer-panel p-6 sm:p-10" aria-labelledby="drawer-title" role="dialog" aria-modal="true">
     <div class="flex items-center justify-between pb-4 hairline-b mb-6">
@@ -1054,6 +1110,7 @@
       // ==================== 3. SCROLL-DRIVEN WINTER-TO-SPRING BACKDROP & PARTICLE MORPHING ENGINE ====================
       const canvas = document.getElementById('snow-canvas');
       const ctx = canvas.getContext('2d');
+      const cursorGlow = document.getElementById('cursor-glow');
       const bgWinter = document.getElementById('bg-winter');
       const bgThaw = document.getElementById('bg-thaw');
       const bgSpring = document.getElementById('bg-spring');
@@ -1162,6 +1219,7 @@
       }
 
       let lastTelemetryText = '';
+      let lastGlowStage = '';
       let animFrameId = null;
 
       function renderLoop() {
@@ -1199,16 +1257,33 @@
 
         // Update Top Masthead Seasonal Telemetry Text
         let stageLabel = '辛酉 · 大雪 · 寒林覆雪';
+        // Cursor-glow seasonal tint: icy blue (winter) -> warm peach (spring)
+        let glowStage = 'winter';
         if (p >= 0.20 && p < 0.45) {
           stageLabel = '酉正 · 雨水 · 残雪暗随冰笋滴';
         } else if (p >= 0.45 && p < 0.72) {
           stageLabel = '癸酉 · 惊蛰 · 晴窗眠猫与春溪初泮';
+          glowStage = 'thaw';
         } else if (p >= 0.72) {
           stageLabel = '乙酉 · 春分 · 雪消门外千山绿';
+          glowStage = 'spring';
         }
         if (stageLabel !== lastTelemetryText && telemetryEl) {
           lastTelemetryText = stageLabel;
           telemetryEl.textContent = stageLabel;
+        }
+        if (glowStage !== lastGlowStage && cursorGlow) {
+          lastGlowStage = glowStage;
+          if (glowStage === 'spring') {
+            cursorGlow.style.setProperty('--glow-core', 'rgba(255, 226, 237, 0.32)');
+            cursorGlow.style.setProperty('--glow-mid', 'rgba(255, 196, 216, 0.15)');
+          } else if (glowStage === 'thaw') {
+            cursorGlow.style.setProperty('--glow-core', 'rgba(236, 228, 255, 0.30)');
+            cursorGlow.style.setProperty('--glow-mid', 'rgba(206, 200, 245, 0.14)');
+          } else {
+            cursorGlow.style.setProperty('--glow-core', 'rgba(206, 234, 255, 0.32)');
+            cursorGlow.style.setProperty('--glow-mid', 'rgba(154, 216, 255, 0.15)');
+          }
         }
 
         // 2. Clear & Render Evolving Particles (Snowflakes -> Thawing Mist -> Spring Blossom Petals)
@@ -1304,72 +1379,7 @@
         animFrameId = requestAnimationFrame(renderLoop);
       }
 
-      // ==================== 4. SYNTHESIZED WEB AUDIO "听雪 / 听春" ====================
-      let audioCtx = null;
-      let windFilterNode = null;
-      let windGainNode = null;
-      let audioPlaying = false;
-
-      function toggleSnowAudio() {
-        const btn = document.getElementById('audio-toggle-btn');
-        if (!audioCtx) {
-          const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-          if (!AudioContextClass) return;
-          audioCtx = new AudioContextClass();
-
-          const bufferSize = audioCtx.sampleRate * 3;
-          const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-          const output = noiseBuffer.getChannelData(0);
-          let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
-          for (let i = 0; i < bufferSize; i++) {
-            const white = Math.random() * 2 - 1;
-            b0 = 0.99886 * b0 + white * 0.0555179;
-            b1 = 0.99332 * b1 + white * 0.0750759;
-            b2 = 0.96900 * b2 + white * 0.1538520;
-            b3 = 0.86650 * b3 + white * 0.3104856;
-            b4 = 0.55000 * b4 + white * 0.5329522;
-            b5 = -0.7616 * b5 - white * 0.0168980;
-            output[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362) * 0.022;
-            b6 = white * 0.115926;
-          }
-
-          const whiteNoise = audioCtx.createBufferSource();
-          whiteNoise.buffer = noiseBuffer;
-          whiteNoise.loop = true;
-
-          windFilterNode = audioCtx.createBiquadFilter();
-          windFilterNode.type = 'bandpass';
-          windFilterNode.frequency.value = 230;
-          windFilterNode.Q.value = 1.9;
-
-          windGainNode = audioCtx.createGain();
-          windGainNode.gain.value = 0.11;
-
-          whiteNoise.connect(windFilterNode);
-          windFilterNode.connect(windGainNode);
-          windGainNode.connect(audioCtx.destination);
-          whiteNoise.start(0);
-          audioPlaying = true;
-          btn.textContent = '听雪 · 鸣';
-          btn.setAttribute('aria-pressed', 'true');
-          return;
-        }
-
-        if (audioPlaying) {
-          windGainNode.gain.setTargetAtTime(0.0001, audioCtx.currentTime, 0.2);
-          audioPlaying = false;
-          btn.textContent = '听雪 · 静';
-          btn.setAttribute('aria-pressed', 'false');
-        } else {
-          if (audioCtx.state === 'suspended') audioCtx.resume();
-          windGainNode.gain.setTargetAtTime(0.11, audioCtx.currentTime, 0.2);
-          audioPlaying = true;
-          btn.textContent = '听雪 · 鸣';
-          btn.setAttribute('aria-pressed', 'true');
-        }
-      }
-
-      // ==================== 5. EVENT BINDINGS ====================
+      // ==================== 4. EVENT BINDINGS ====================
       window.addEventListener('resize', resizeCanvas);
       window.addEventListener('scroll', updateScrollState, { passive: true });
       window.addEventListener('pointermove', function(e) {
@@ -1377,6 +1387,10 @@
         lastPointerX = e.clientX;
         pointerX = e.clientX;
         pointerY = e.clientY;
+        if (cursorGlow) {
+          cursorGlow.classList.add('is-active');
+          cursorGlow.style.transform = 'translate3d(' + e.clientX + 'px, ' + e.clientY + 'px, 0)';
+        }
       }, { passive: true });
 
       document.querySelectorAll('.season-node').forEach(node => {
@@ -1388,8 +1402,6 @@
           }
         });
       });
-
-      document.getElementById('audio-toggle-btn').addEventListener('click', toggleSnowAudio);
 
       document.getElementById('copy-email-btn').addEventListener('click', function() {
         const email = 'hello@yxy.example';
